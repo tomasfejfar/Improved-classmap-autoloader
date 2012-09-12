@@ -1,0 +1,35 @@
+<?php
+/**
+ * Ignore file - listed prefixes are agnored in classmap
+ */
+return array(
+    'Zend_Amf', 
+    'Zend_Barcode', 
+    'Zend_Console', 
+    'Zend_Gdata',
+    'Zend_Cloud',
+    'Zend_CodeGenerator',
+    'Zend_Dojo', 
+    'Zend_Feed', 
+    'Zend_InfoCard', 
+    'Zend_Pdf', 
+    'Zend_Service',
+    'Zend_Tool', 
+    'Zend_XmlRpc',
+    'Zend_Ldap',
+    'Zend_Markup',
+    'Zend_Measure',
+    'Zend_Mobile',
+    'Zend_OAuth',
+    'Zend_OpenId',
+    'Zend_ProgressBar',
+    'Zend_Queue',
+    'Zend_Reflection',
+    'Zend_Search',
+    'Zend_Server',
+    'Zend_Soap',
+    'Zend_Test',
+    'Zend_Application',
+    'Zend_Crypt',
+    'Zend_Db_Adapter_Pdo_Ibm',
+);

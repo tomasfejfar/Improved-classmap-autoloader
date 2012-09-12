@@ -89,6 +89,13 @@ if (isset($opts->l)) {
 
 $usingStdout = false;
 $output = $path . DIRECTORY_SEPARATOR . '.classmap.php';
+$ignoreFile = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . '.classmapIgnore.php';
+if (file_exists($ignoreFile)){
+    $ignore = include($ignoreFile);
+} else {
+    $ignore = array();
+}
+
 if (isset($opts->o)) {
     $output = $opts->o;
     if ('-' == $output) {
@@ -135,6 +142,17 @@ function createMap(Iterator $i, $map, $strip) {
     return true;
 }
 iterator_apply($l, 'createMap', array($l, $map, $strip));
+echo 'Ignored classes:' . PHP_EOL;
+foreach ($map as $class => $file) {
+    foreach ($ignore as $prefix) {
+        if (strpos($class, $prefix) === 0) {
+            echo "\t$class" . PHP_EOL;
+            unset($map->$class);
+            break;
+        }
+    }
+}
+
 
 // Create a file with the class/file map.
 // Stupid syntax highlighters make separating < from PHP declaration necessary

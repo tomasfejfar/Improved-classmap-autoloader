@@ -1,0 +1,1 @@
+php w:\www\frameworks\Zend\bin\classmap_generator.php -l %cd%

@@ -32,7 +32,7 @@
  *                              file
  */
 
-$libPath = dirname(__FILE__) . '/../../library';
+$libPath = dirname(__FILE__) . '/../library';
 if (!is_dir($libPath)) {
     // Try to load StandardAutoloader from include_path
     if (false === include('ZendX/Loader/StandardAutoloader.php')) {
@@ -129,8 +129,7 @@ function createMap(Iterator $i, $map, $strip) {
     $filename  = str_replace($strip, '', $file->getRealpath());
 
     // Windows portability
-    $filename  = str_replace(array('/', '\\'), "' . DS . '", $filename);
-
+    $filename  = str_replace(array('/', '\\'), '.$ds_.', $filename);
     $map->{$namespace . $file->classname} = $filename;
 
     return true;
@@ -139,14 +138,16 @@ iterator_apply($l, 'createMap', array($l, $map, $strip));
 
 // Create a file with the class/file map.
 // Stupid syntax highlighters make separating < from PHP declaration necessary
-$dirStore = 'd_' . $opts->getOption('key');
-$content = '<' . "?php\n"
-         . '$' . $dirStore . " = dirname(__FILE__);\n"
-         . "if (!defined('DS')) define('DS', DIRECTORY_SEPARATOR);\n"
-         . 'return ' . var_export((array) $map, true) . ';';
+$dirStore = '$d_';
+$mapExport = var_export((array) $map, true);
+$mapExport = str_replace(" ", "", $mapExport);
+$content = '<' . "?php" . PHP_EOL
+         . '$d_=dirname(__FILE__);' . PHP_EOL
+         . '$ds_=DIRECTORY_SEPARATOR;' . PHP_EOL
+         . 'return ' . $mapExport . ';';
 
 // Prefix with dirname(__FILE__); modify the generated content
-$content = preg_replace('#(=> )#', '$1$' . $dirStore . ' . DS . ', $content);
+$content = preg_replace('#(=> )#', '$1' . $dirStore . '.$ds_.', $content);
 $content = str_replace("\\'", "'", $content);
 
 // Write the contents to disk
